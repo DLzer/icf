@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"time"
 
 	"github.com/jinzhu/gorm"
 )
@@ -9,7 +10,8 @@ import (
 type Workout struct {
 	ID       uint32 `gorm:"primary_key;auto_increment" json:"id"`
 	Name     string `gorm:"size:255;not null;" json:"workout_name"`
-	Exercies uint32 `json:"excercises"`
+	Exercise uint32 `json:"exercises"`
+	Created  time.Time
 }
 
 func (w *Workout) GetWorkout(db *gorm.DB, uid uint32) (*Workout, error) {
@@ -22,4 +24,13 @@ func (w *Workout) GetWorkout(db *gorm.DB, uid uint32) (*Workout, error) {
 	}
 
 	return w, err
+}
+
+func (w *Workout) CreateWorkout(db *gorm.DB) (*Workout, error) {
+	err := db.Debug().Create(&w).Error
+	if err != nil {
+		return &Workout{}, err
+	}
+
+	return w, nil
 }

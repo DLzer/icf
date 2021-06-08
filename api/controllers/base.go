@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/DLzer/icf/api/models"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 )
@@ -39,7 +40,10 @@ func (server *Server) Initialize(DbDriver, DbUser, DbPassword, DbPort, DbHost, D
 		}
 	}
 
-	server.DB.Debug().AutoMigrate(&models.Product{}) //database migration
+	server.DB.Debug().AutoMigrate(&models.Workout{})  //database migration
+	server.DB.Debug().AutoMigrate(&models.Exercise{}) //database migration
+	server.DB.Debug().AutoMigrate(&models.User{})     //database migration
+	server.DB.Debug().AutoMigrate(&models.Tracker{})  //database migration
 
 	server.Router = mux.NewRouter()
 
