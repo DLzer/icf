@@ -8,17 +8,17 @@ import (
 )
 
 type Tracker struct {
-	ID         uint32 `gorm:"primary_key; auto_increment" json:"id"`
-	Weight     int    `json:"weight"`
-	ExerciseID uint32 `json:"excerciseID"`
-	Exercise   Exercise
-	UserID     uint32 `json:"userID"`
-	User       User
-	Created    time.Time
+	ID         uint32    `gorm:"primary_key; auto_increment" json:"id"`
+	Weight     int       `json:"weight"`
+	ExerciseID uint32    `gorm:"ForeignKey:id" json:"exerciseID"`
+	Exercise   Exercise  `json:"exercise"`
+	UserID     uint32    `gorm:"ForeignKey:id" json:"userID"`
+	User       User      `json:"user"`
+	Created    time.Time `gorm:"index"`
 }
 
 func (t *Tracker) GetTracker(db *gorm.DB, uid uint32) (*Tracker, error) {
-	err := db.Debug().Model(Tracker{}).Where("id = ?", uid).Take(&t).Error
+	err := db.Debug().Model(Tracker{}).Where("id = ?", uid).Preload("User").Preload("Exercise").Take(&t).Error
 	if err != nil {
 		return &Tracker{}, err
 	}

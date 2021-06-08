@@ -22,7 +22,7 @@ func (e *Exercise) GetExercise(db *gorm.DB, uid uint32) (*Exercise, error) {
 		return &Exercise{}, err
 	}
 	if gorm.IsRecordNotFoundError(err) {
-		return &Exercise{}, errors.New("Excercise Not Found")
+		return &Exercise{}, errors.New("excercise not found")
 	}
 
 	return e, err

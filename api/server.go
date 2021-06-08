@@ -18,7 +18,7 @@ func Run() {
 	if err != nil {
 		log.Fatalf("Error getting env, not coming through %v", err)
 	} else {
-		fmt.Println("env values loaded")
+		fmt.Println("ENV Values Loaded...")
 	}
 
 	server.Initialize(os.Getenv("DB_DRIVER"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_PORT"), os.Getenv("DB_HOST"), os.Getenv("DB_NAME"))

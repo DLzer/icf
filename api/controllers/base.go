@@ -8,6 +8,9 @@ import (
 	"github.com/DLzer/icf/api/models"
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
+
+	_ "github.com/jinzhu/gorm/dialects/mysql"    //mysql database driver
+	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres database driver
 )
 
 type Server struct {
@@ -19,24 +22,26 @@ func (server *Server) Initialize(DbDriver, DbUser, DbPassword, DbPort, DbHost, D
 
 	var err error
 
+	log.Printf("Using %s Driver for DB Connection...", DbDriver)
+
 	if DbDriver == "mysql" {
 		DBURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", DbUser, DbPassword, DbHost, DbPort, DbName)
 		server.DB, err = gorm.Open(DbDriver, DBURL)
 		if err != nil {
-			fmt.Printf("Cannot connect to %s database", DbDriver)
+			fmt.Printf("Cannot connect to %s database -- ", DbDriver)
 			log.Fatal("This is the error:", err)
 		} else {
-			fmt.Printf("We are connected to the %s database", DbDriver)
+			fmt.Printf("We are connected to the %s database -- ", DbDriver)
 		}
 	}
 	if DbDriver == "postgres" {
 		DBURL := fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable password=%s", DbHost, DbPort, DbUser, DbName, DbPassword)
 		server.DB, err = gorm.Open(DbDriver, DBURL)
 		if err != nil {
-			fmt.Printf("Cannot connect to %s database", DbDriver)
+			fmt.Printf("Cannot connect to %s database -- ", DbDriver)
 			log.Fatal("This is the error:", err)
 		} else {
-			fmt.Printf("We are connected to the %s database", DbDriver)
+			fmt.Printf("We are connected to the %s database -- ", DbDriver)
 		}
 	}
 
