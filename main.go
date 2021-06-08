@@ -5,14 +5,15 @@ import (
 	"log"
 	"os"
 
+	"github.com/DLzer/icf/api/controllers"
+	"github.com/DLzer/icf/api/seed"
 	"github.com/joho/godotenv"
 )
 
 var server = controllers.Server{}
 
 func Run() {
-	var err error
-	err = godotenv.Load()
+	err := godotenv.Load()
 	if err != nil {
 		log.Fatalf("Error getting env, not coming through %v", err)
 	} else {
