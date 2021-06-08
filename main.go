@@ -1,28 +1,7 @@
-package api
+package main
 
-import (
-	"fmt"
-	"log"
-	"os"
+import "github.com/DLzer/icf/api"
 
-	"github.com/DLzer/icf/api/controllers"
-	"github.com/DLzer/icf/api/seed"
-	"github.com/joho/godotenv"
-)
-
-var server = controllers.Server{}
-
-func Run() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error getting env, not coming through %v", err)
-	} else {
-		fmt.Println("env values loaded")
-	}
-
-	server.Initialize(os.Getenv("DB_DRIVER"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_PORT"), os.Getenv("DB_HOST"), os.Getenv("DB_NAME"))
-
-	seed.Load(server.DB)
-
-	server.Run(":8080")
+func main() {
+	api.Run()
 }
